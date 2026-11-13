@@ -1,6 +1,6 @@
 {
   "name": "rea",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Reverse-engineer shipped software, web bundles and live pages with REA. This is the skill only: REA's own tools are installed separately with its setup command.",
   "author": {
     "name": "Seanfo2332",

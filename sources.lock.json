@@ -2,8 +2,8 @@
   "sources": {
     "impeccable": {
       "repo": "pbakaus/impeccable",
-      "commit": "b4bff1626c344067788c2679f048a20057c7cc5a",
-      "commitDate": "2026-11-11",
+      "commit": "c4cd1924c389f68d37c687d9c2bbf13f12547c41",
+      "commitDate": "2026-11-12",
       "installed": [
         "skills/impeccable"
       ]
@@ -24,7 +24,7 @@
     },
     "frontend-design": {
       "repo": "anthropics/claude-plugins-official",
-      "commit": "e0ab6e51219eef74e417a0e1d89e5d53e5e763d4",
+      "commit": "f75f5b25ae94f4332be4ff5f18435741d2589bdb",
       "commitDate": "2026-11-12",
       "installed": [
         "skills/frontend-design"
@@ -114,7 +114,7 @@
     },
     "rea": {
       "repo": "morluto/rea",
-      "commit": "d74549e495c58eb4a560279fd9f05508401ea0a0",
+      "commit": "54906fdb1fc735b507961b2954f6968775cae4f6",
       "commitDate": "2026-11-12",
       "installed": [
         "skills/reverse-engineer-anything"
@@ -136,14 +136,14 @@
     },
     "floorplan": {
       "repo": "haydenschmitty/floorplan",
-      "commit": "8195eb6898c4f4403a4ee741fa3d3d570aa8c505",
-      "commitDate": "2026-11-10",
+      "commit": "5e3eaac9639705f52e5e31b620a0d20550acd9dd",
+      "commitDate": "2026-11-12",
       "installed": []
     },
     "craft-anything": {
       "repo": "storytold/craft-anything",
-      "commit": "4a4b06d2813cd24821bd9bbdd670b75c21079804",
-      "commitDate": "2026-11-12",
+      "commit": "52f1daa668021a84e8c72f2564cf3dfe36ccec67",
+      "commitDate": "2026-11-13",
       "installed": [
         "skills/craft-anything/SKILL.md",
         "skills/craft-anything/references/recovery.md"

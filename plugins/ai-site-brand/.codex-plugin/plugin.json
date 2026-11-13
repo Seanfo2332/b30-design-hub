@@ -1,6 +1,6 @@
 {
   "name": "ai-site-brand",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Higgsfield's website builder and brand-kit skills. They need the Higgsfield CLI and a Higgsfield account, and they chain with Higgsfield's image and video skills, which are not included.",
   "author": {
     "name": "Seanfo2332",

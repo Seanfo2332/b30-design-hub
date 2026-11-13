@@ -394,11 +394,11 @@ def credits_notes(plugins: list[dict]) -> list[str]:
     ]
 
 
-def build_credits(plugins: list[dict], lock: dict) -> str:
+def build_credits(hub: dict, plugins: list[dict], lock: dict) -> str:
     header = [
         "# Credits and licences",
         "",
-        "Design Hub collects work by other people. Every component below keeps its author's licence,",
+        f"{hub['displayName']} collects work by other people. Every component below keeps its author's licence,",
         "which is stored next to it under `plugins/<plugin>/THIRD_PARTY/` (or at the plugin root for",
         "whole-plugin mirrors). The hub's own original work is MIT licensed; see `LICENSE`.",
         "",
@@ -419,7 +419,7 @@ def write_generated(config: dict, lock: dict, version: str) -> None:
         write_json(plugin_dir / ".codex-plugin" / "plugin.json", build_codex_manifest(hub, plugin, version))
     write_json(ROOT / ".claude-plugin" / "marketplace.json", build_claude_marketplace(hub, plugins))
     write_json(ROOT / ".agents" / "plugins" / "marketplace.json", build_codex_marketplace(hub, plugins))
-    write_text(ROOT / "CREDITS.md", build_credits(plugins, lock))
+    write_text(ROOT / "CREDITS.md", build_credits(hub, plugins, lock))
 
 
 # --------------------------------------------------------------------------- orchestration

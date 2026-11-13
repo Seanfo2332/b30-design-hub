@@ -1,4 +1,4 @@
-# Design Hub
+# B30 Design Hub
 
 One place to install web design, motion, 3D and analysis skills for **Claude Code** and **Codex**.
 
@@ -13,15 +13,15 @@ The design-skill space is crowded and scattered. This hub collects the best open
 **Claude Code**
 
 ```
-/plugin marketplace add Seanfo2332/design-hub
-/plugin install design-core@design-hub
+/plugin marketplace add Seanfo2332/b30-design-hub
+/plugin install design-core@b30-design-hub
 ```
 
 **Codex**
 
 ```bash
-codex plugin marketplace add Seanfo2332/design-hub
-codex plugin add design-core@design-hub
+codex plugin marketplace add Seanfo2332/b30-design-hub
+codex plugin add design-core@b30-design-hub
 ```
 
 Replace `design-core` with any plugin name from the table. Start with `design-core`: it holds the main design skills and the director that tells you which other plugin to add.
@@ -49,35 +49,35 @@ The last column is Claude Code's own estimate of what each plugin adds to every 
 **Claude Code**
 
 ```
-/plugin marketplace add Seanfo2332/design-hub
-/plugin install design-core@design-hub
-/plugin install motion@design-hub
-/plugin install threejs@design-hub
-/plugin install web-visuals@design-hub
-/plugin install ai-site-brand@design-hub
-/plugin install unslop@design-hub
-/plugin install modern-web-guidance@design-hub
-/plugin install floorplan@design-hub
-/plugin install rea@design-hub
-/plugin install craft-anything@design-hub
-/plugin install open-motion@design-hub
+/plugin marketplace add Seanfo2332/b30-design-hub
+/plugin install design-core@b30-design-hub
+/plugin install motion@b30-design-hub
+/plugin install threejs@b30-design-hub
+/plugin install web-visuals@b30-design-hub
+/plugin install ai-site-brand@b30-design-hub
+/plugin install unslop@b30-design-hub
+/plugin install modern-web-guidance@b30-design-hub
+/plugin install floorplan@b30-design-hub
+/plugin install rea@b30-design-hub
+/plugin install craft-anything@b30-design-hub
+/plugin install open-motion@b30-design-hub
 ```
 
 **Codex**
 
 ```bash
-codex plugin marketplace add Seanfo2332/design-hub
-codex plugin add design-core@design-hub
-codex plugin add motion@design-hub
-codex plugin add threejs@design-hub
-codex plugin add web-visuals@design-hub
-codex plugin add ai-site-brand@design-hub
-codex plugin add unslop@design-hub
-codex plugin add modern-web-guidance@design-hub
-codex plugin add floorplan@design-hub
-codex plugin add rea@design-hub
-codex plugin add craft-anything@design-hub
-codex plugin add open-motion@design-hub
+codex plugin marketplace add Seanfo2332/b30-design-hub
+codex plugin add design-core@b30-design-hub
+codex plugin add motion@b30-design-hub
+codex plugin add threejs@b30-design-hub
+codex plugin add web-visuals@b30-design-hub
+codex plugin add ai-site-brand@b30-design-hub
+codex plugin add unslop@b30-design-hub
+codex plugin add modern-web-guidance@b30-design-hub
+codex plugin add floorplan@b30-design-hub
+codex plugin add rea@b30-design-hub
+codex plugin add craft-anything@b30-design-hub
+codex plugin add open-motion@b30-design-hub
 ```
 
 Install what you will use: every skill you add puts its description into each session (see the table above), and `threejs` is also the largest download at about 80 MB.

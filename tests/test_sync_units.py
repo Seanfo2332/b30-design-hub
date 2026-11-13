@@ -136,7 +136,12 @@ def test_credits_without_a_pin_say_not_available(sync):
 
 
 def test_credits_include_source_notes(sync):
-    assert "A note." in sync.build_credits([PLUGIN], {"sources": {}})
+    assert "A note." in sync.build_credits(HUB, [PLUGIN], {"sources": {}})
+
+
+def test_credits_name_the_hub_from_its_display_name(sync):
+    hub = {**HUB, "displayName": "B30 Design Hub"}
+    assert "B30 Design Hub collects work by other people." in sync.build_credits(hub, [PLUGIN], {"sources": {}})
 
 
 def test_changed_pins_reports_new_and_moved_sources(sync):

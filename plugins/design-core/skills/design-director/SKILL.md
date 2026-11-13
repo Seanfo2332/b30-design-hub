@@ -1,11 +1,11 @@
 ---
 name: design-director
-description: Pick the right Design Hub skills for a web design task. Use at the start of any website, UI, landing page, dashboard, animation, 3D, slide or branding request, or whenever the user asks which design skill to use. Reads the brief, checks which hub plugins are installed, chooses the smallest set of skills that fits, and returns a short plan with the order to apply them. It routes; it does not design.
+description: Pick the right B30 Design Hub skills for a web design task. Use at the start of any website, UI, landing page, dashboard, animation, 3D, slide or branding request, or whenever the user asks which design skill to use. Reads the brief, checks which hub plugins are installed, chooses the smallest set of skills that fits, and returns a short plan with the order to apply them. It routes; it does not design.
 ---
 
 # Design director
 
-The Design Hub holds about 60 skills, some of them with dozens of commands. Loading all of them wastes context and produces muddled work. Your job is to choose the few that matter, say in what order to use them, and name any plugin that is missing.
+The B30 Design Hub holds about 60 skills, some of them with dozens of commands. Loading all of them wastes context and produces muddled work. Your job is to choose the few that matter, say in what order to use them, and name any plugin that is missing.
 
 ## Steps
 
@@ -62,5 +62,5 @@ Open questions: at most two, or "none".
 
 Install lines to give the user:
 
-- Claude Code: `/plugin marketplace add Seanfo2332/design-hub` once, then `/plugin install <plugin>@design-hub`
-- Codex: `codex plugin marketplace add Seanfo2332/design-hub` once, then `codex plugin add <plugin>@design-hub`
+- Claude Code: `/plugin marketplace add Seanfo2332/b30-design-hub` once, then `/plugin install <plugin>@b30-design-hub`
+- Codex: `codex plugin marketplace add Seanfo2332/b30-design-hub` once, then `codex plugin add <plugin>@b30-design-hub`

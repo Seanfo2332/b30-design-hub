@@ -1,7 +1,7 @@
 {
-  "name": "design-hub",
+  "name": "b30-design-hub",
   "interface": {
-    "displayName": "Design Hub"
+    "displayName": "B30 Design Hub"
   },
   "plugins": [
     {

@@ -1,8 +1,8 @@
 {
   "hub": {
-    "name": "design-hub",
-    "displayName": "Design Hub",
-    "repo": "Seanfo2332/design-hub",
+    "name": "b30-design-hub",
+    "displayName": "B30 Design Hub",
+    "repo": "Seanfo2332/b30-design-hub",
     "description": "One place to install web design, motion, 3D and analysis skills for Claude Code and Codex.",
     "author": { "name": "Seanfo2332", "url": "https://github.com/Seanfo2332" },
     "license": "MIT"

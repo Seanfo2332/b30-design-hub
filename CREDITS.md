@@ -1,6 +1,6 @@
 # Credits and licences
 
-Design Hub collects work by other people. Every component below keeps its author's licence,
+B30 Design Hub collects work by other people. Every component below keeps its author's licence,
 which is stored next to it under `plugins/<plugin>/THIRD_PARTY/` (or at the plugin root for
 whole-plugin mirrors). The hub's own original work is MIT licensed; see `LICENSE`.
 

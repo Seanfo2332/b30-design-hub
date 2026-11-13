@@ -69,7 +69,7 @@ Shape and depth: radii, borders, shadows, layering.
 Motion: what moves, when, how fast (only what you observed).
 What to take as principle: bullet list.
 What not to copy: bullet list (assets, wording, brand marks).
-Suggested next step: which Design Hub skill should pick this up.
+Suggested next step: which B30 Design Hub skill should pick this up.
 ```
 
 Keep the brief under one page. Facts you measured and things you inferred must be labelled differently.

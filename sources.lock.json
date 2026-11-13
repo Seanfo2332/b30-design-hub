@@ -1,0 +1,159 @@
+{
+  "sources": {
+    "impeccable": {
+      "repo": "pbakaus/impeccable",
+      "commit": "b4bff1626c344067788c2679f048a20057c7cc5a",
+      "commitDate": "2026-11-11",
+      "installed": [
+        "skills/impeccable"
+      ]
+    },
+    "ui-ux-pro-max": {
+      "repo": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "6ae86f61f520d6ca229d2f40e070410638c908c5",
+      "commitDate": "2026-11-10",
+      "installed": [
+        "skills/ui-ux-pro-max",
+        "skills/banner-design",
+        "skills/brand",
+        "skills/design",
+        "skills/design-system",
+        "skills/slides",
+        "skills/ui-styling"
+      ]
+    },
+    "frontend-design": {
+      "repo": "anthropics/claude-plugins-official",
+      "commit": "e0ab6e51219eef74e417a0e1d89e5d53e5e763d4",
+      "commitDate": "2026-11-12",
+      "installed": [
+        "skills/frontend-design"
+      ]
+    },
+    "gsap-skills": {
+      "repo": "greensock/gsap-skills",
+      "commit": "aed9cfd3277740755f6bfc1155c7aa645403b760",
+      "commitDate": "2026-04-21",
+      "installed": [
+        "skills/gsap-core",
+        "skills/gsap-frameworks",
+        "skills/gsap-performance",
+        "skills/gsap-plugins",
+        "skills/gsap-react",
+        "skills/gsap-scrolltrigger",
+        "skills/gsap-timeline",
+        "skills/gsap-utils"
+      ]
+    },
+    "threejs-graphics": {
+      "repo": "scottstts/Threejs-Awesome-Graphics-Agent-Skills",
+      "commit": "53eb5a24097425d82532ec33697ad472750132a4",
+      "commitDate": "2026-10-22",
+      "installed": [
+        "skills/threejs-atmosphere-aerial-perspective",
+        "skills/threejs-bloom",
+        "skills/threejs-camera-direction",
+        "skills/threejs-exposure-color-grading",
+        "skills/threejs-image-pipeline",
+        "skills/threejs-parallax-occlusion-mapping",
+        "skills/threejs-precipitation-surfaces",
+        "skills/threejs-procedural-animation",
+        "skills/threejs-procedural-architecture",
+        "skills/threejs-procedural-fields",
+        "skills/threejs-procedural-geometry",
+        "skills/threejs-procedural-materials",
+        "skills/threejs-procedural-planets",
+        "skills/threejs-procedural-vegetation",
+        "skills/threejs-procedural-vfx",
+        "skills/threejs-raymarched-space-effects",
+        "skills/threejs-screen-space-ambient-occlusion",
+        "skills/threejs-shadow-systems",
+        "skills/threejs-skill-router",
+        "skills/threejs-spectral-ocean",
+        "skills/threejs-temporal-surfaces",
+        "skills/threejs-visual-validation",
+        "skills/threejs-volumetric-clouds",
+        "skills/threejs-water-optics"
+      ]
+    },
+    "threejs-game-skills": {
+      "repo": "majidmanzarpour/threejs-game-skills",
+      "commit": "8286774b22a2566bf894dbc825825c16921866af",
+      "commitDate": "2026-09-27",
+      "installed": [
+        "skills/threejs-3d-generator",
+        "skills/threejs-aaa-graphics-builder",
+        "skills/threejs-audio-generator",
+        "skills/threejs-debug-profiler",
+        "skills/threejs-game-director",
+        "skills/threejs-game-ui-designer",
+        "skills/threejs-gameplay-systems",
+        "skills/threejs-image-generator",
+        "skills/threejs-qa-release"
+      ]
+    },
+    "everything-claude-code": {
+      "repo": "affaan-m/everything-claude-code",
+      "commit": "d2ef2680594f9a17526a6e1a2e18b3d242c5d17b",
+      "commitDate": "2026-11-06",
+      "installed": [
+        "skills/frontend-slides",
+        "skills/ui-demo",
+        "skills/dashboard-builder",
+        "skills/frontend-patterns"
+      ]
+    },
+    "higgsfield-skills": {
+      "repo": "higgsfield-ai/skills",
+      "commit": "27000402070db19d958789d05b3b52b6f4718d7c",
+      "commitDate": "2026-11-05",
+      "installed": [
+        "skills/higgsfield-websites",
+        "skills/higgsfield-brandkit"
+      ]
+    },
+    "rea": {
+      "repo": "morluto/rea",
+      "commit": "d74549e495c58eb4a560279fd9f05508401ea0a0",
+      "commitDate": "2026-11-12",
+      "installed": [
+        "skills/reverse-engineer-anything"
+      ]
+    },
+    "unslop": {
+      "repo": "heydamir/unslop",
+      "commit": "97daa3eb365670ea3f87ed85356cbfcee18105a5",
+      "commitDate": "2026-11-09",
+      "installed": [
+        "skills/unslop"
+      ]
+    },
+    "modern-web-guidance": {
+      "repo": "GoogleChrome/modern-web-guidance",
+      "commit": "4dd968349e54ca45a05dd5c818fb035c9054b022",
+      "commitDate": "2026-11-10",
+      "installed": []
+    },
+    "floorplan": {
+      "repo": "haydenschmitty/floorplan",
+      "commit": "8195eb6898c4f4403a4ee741fa3d3d570aa8c505",
+      "commitDate": "2026-11-10",
+      "installed": []
+    },
+    "craft-anything": {
+      "repo": "storytold/craft-anything",
+      "commit": "4a4b06d2813cd24821bd9bbdd670b75c21079804",
+      "commitDate": "2026-11-12",
+      "installed": [
+        "skills/craft-anything/SKILL.md",
+        "skills/craft-anything/references/recovery.md"
+      ]
+    },
+    "open-motion": {
+      "repo": "Yuan-ManX/open-motion",
+      "commit": "1c93d99b064e8674f244a8f24227358ec6f61618",
+      "commitDate": "2026-08-17",
+      "installed": []
+    }
+  }
+}

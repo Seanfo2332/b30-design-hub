@@ -1,0 +1,3 @@
+# Upstream files are redistributed byte for byte (Floorplan verifies SHA-256 checksums),
+# so git must never rewrite their line endings on any platform.
+* -text

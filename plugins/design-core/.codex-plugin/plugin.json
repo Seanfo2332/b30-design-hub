@@ -1,0 +1,30 @@
+{
+  "name": "design-core",
+  "version": "0.1.0",
+  "description": "The core web design toolkit: Impeccable, UI UX Pro Max and Anthropic's frontend-design, plus a design-director skill and three Claude Code agents (design-director, design-reviewer, reference-analyst) that choose the right skills, check how a built page renders, and study reference sites.",
+  "author": {
+    "name": "Seanfo2332",
+    "url": "https://github.com/Seanfo2332"
+  },
+  "homepage": "https://github.com/Seanfo2332/design-hub",
+  "repository": "https://github.com/Seanfo2332/design-hub",
+  "license": "MIT AND Apache-2.0",
+  "keywords": [
+    "design",
+    "frontend",
+    "ui",
+    "ux",
+    "agents"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Design Core",
+    "shortDescription": "Impeccable, UI UX Pro Max, frontend-design and a design director",
+    "longDescription": "The core web design toolkit: Impeccable, UI UX Pro Max and Anthropic's frontend-design, plus a design-director skill and three Claude Code agents (design-director, design-reviewer, reference-analyst) that choose the right skills, check how a built page renders, and study reference sites.",
+    "developerName": "Seanfo2332",
+    "category": "Design",
+    "capabilities": [
+      "Read"
+    ]
+  }
+}

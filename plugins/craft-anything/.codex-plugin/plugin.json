@@ -1,0 +1,29 @@
+{
+  "name": "craft-anything",
+  "version": "0.1.0",
+  "description": "Evidence-first investigation of how shipped software works, through the Craft Anything MCP tools. This is the skill only: the Windows app and its MCP server are downloaded from the Craft Anything project.",
+  "author": {
+    "name": "Seanfo2332",
+    "url": "https://github.com/Seanfo2332"
+  },
+  "homepage": "https://github.com/Seanfo2332/design-hub",
+  "repository": "https://github.com/Seanfo2332/design-hub",
+  "license": "MIT",
+  "keywords": [
+    "reverse-engineering",
+    "investigation",
+    "mcp",
+    "analysis"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Craft Anything",
+    "shortDescription": "Evidence-first investigation of shipped software",
+    "longDescription": "Evidence-first investigation of how shipped software works, through the Craft Anything MCP tools. This is the skill only: the Windows app and its MCP server are downloaded from the Craft Anything project.",
+    "developerName": "Seanfo2332",
+    "category": "Analyse",
+    "capabilities": [
+      "Read"
+    ]
+  }
+}

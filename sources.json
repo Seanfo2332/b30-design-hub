@@ -1,0 +1,275 @@
+{
+  "hub": {
+    "name": "design-hub",
+    "displayName": "Design Hub",
+    "repo": "Seanfo2332/design-hub",
+    "description": "One place to install web design, motion, 3D and analysis skills for Claude Code and Codex.",
+    "author": { "name": "Seanfo2332", "url": "https://github.com/Seanfo2332" },
+    "license": "MIT"
+  },
+  "plugins": [
+    {
+      "name": "design-core",
+      "category": "Design",
+      "license": "MIT AND Apache-2.0",
+      "keywords": ["design", "frontend", "ui", "ux", "agents"],
+      "description": "The core web design toolkit: Impeccable, UI UX Pro Max and Anthropic's frontend-design, plus a design-director skill and three Claude Code agents (design-director, design-reviewer, reference-analyst) that choose the right skills, check how a built page renders, and study reference sites.",
+      "shortDescription": "Impeccable, UI UX Pro Max, frontend-design and a design director",
+      "sources": [
+        {
+          "id": "impeccable",
+          "repo": "pbakaus/impeccable",
+          "author": "Paul Bakaus",
+          "homepage": "https://impeccable.style",
+          "license": "Apache-2.0",
+          "licenseFiles": ["LICENSE", "NOTICE.md"],
+          "copy": [{ "from": "plugin/skills/impeccable", "to": "skills/impeccable" }],
+          "notes": "Only the skill folder is included. The upstream plugin's hooks and its four bundled agents are not, so automatic checks after each edit are off. The skill falls back to its documented degraded mode. Install the full upstream plugin if you want them."
+        },
+        {
+          "id": "ui-ux-pro-max",
+          "repo": "nextlevelbuilder/ui-ux-pro-max-skill",
+          "author": "Next Level Builder",
+          "homepage": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+          "license": "MIT",
+          "licenseFiles": ["LICENSE"],
+          "copy": [
+            { "from": ".claude/skills/ui-ux-pro-max", "to": "skills/ui-ux-pro-max" },
+            { "from": ".claude/skills/banner-design", "to": "skills/banner-design" },
+            { "from": ".claude/skills/brand", "to": "skills/brand" },
+            { "from": ".claude/skills/design", "to": "skills/design" },
+            { "from": ".claude/skills/design-system", "to": "skills/design-system" },
+            { "from": ".claude/skills/slides", "to": "skills/slides" },
+            { "from": ".claude/skills/ui-styling", "to": "skills/ui-styling" }
+          ]
+        },
+        {
+          "id": "frontend-design",
+          "repo": "anthropics/claude-plugins-official",
+          "author": "Anthropic",
+          "homepage": "https://github.com/anthropics/claude-plugins-official",
+          "license": "Apache-2.0",
+          "licenseFiles": ["plugins/frontend-design/LICENSE"],
+          "copy": [{ "from": "plugins/frontend-design/skills/frontend-design", "to": "skills/frontend-design" }],
+          "notes": "Anthropic does not endorse or sponsor this hub."
+        }
+      ]
+    },
+    {
+      "name": "motion",
+      "category": "Design",
+      "license": "MIT",
+      "keywords": ["animation", "gsap", "scrolltrigger", "motion"],
+      "description": "GreenSock's official GSAP skills for web animation: core API, timelines, ScrollTrigger, plugins, React, utilities and performance.",
+      "shortDescription": "Official GSAP animation skills",
+      "sources": [
+        {
+          "id": "gsap-skills",
+          "repo": "greensock/gsap-skills",
+          "author": "GreenSock",
+          "homepage": "https://github.com/greensock/gsap-skills",
+          "license": "MIT",
+          "licenseFiles": ["LICENSE"],
+          "copy": [{ "from": "skills", "to": "skills", "children": true }]
+        }
+      ]
+    },
+    {
+      "name": "threejs",
+      "category": "Design",
+      "license": "MIT",
+      "keywords": ["threejs", "webgl", "3d", "shaders", "graphics"],
+      "description": "33 Three.js skills for ambitious 3D and WebGL work: procedural geometry and materials, water, clouds, atmosphere, shadows, cameras, post-processing, game systems and visual QA.",
+      "shortDescription": "33 Three.js and WebGL skills",
+      "sources": [
+        {
+          "id": "threejs-graphics",
+          "repo": "scottstts/Threejs-Awesome-Graphics-Agent-Skills",
+          "author": "Scott Sun",
+          "homepage": "https://github.com/scottstts/Threejs-Awesome-Graphics-Agent-Skills",
+          "license": "MIT",
+          "licenseFiles": ["LICENSE"],
+          "copy": [{ "from": "skills", "to": "skills", "children": true }]
+        },
+        {
+          "id": "threejs-game-skills",
+          "repo": "majidmanzarpour/threejs-game-skills",
+          "author": "Majid Manzarpour",
+          "homepage": "https://github.com/majidmanzarpour/threejs-game-skills",
+          "license": "MIT",
+          "licenseFiles": ["LICENSE"],
+          "copy": [{ "from": "skills", "to": "skills", "children": true }]
+        }
+      ]
+    },
+    {
+      "name": "web-visuals",
+      "category": "Design",
+      "license": "MIT",
+      "keywords": ["slides", "dashboard", "demo", "frontend", "patterns"],
+      "description": "Slides, UI demos, dashboards and front-end patterns for building and presenting web interfaces.",
+      "shortDescription": "Slides, demos, dashboards and front-end patterns",
+      "sources": [
+        {
+          "id": "everything-claude-code",
+          "repo": "affaan-m/everything-claude-code",
+          "author": "Affaan Mustafa",
+          "homepage": "https://github.com/affaan-m/everything-claude-code",
+          "license": "MIT",
+          "licenseFiles": ["LICENSE"],
+          "copy": [
+            { "from": "skills/frontend-slides", "to": "skills/frontend-slides" },
+            { "from": "skills/ui-demo", "to": "skills/ui-demo" },
+            { "from": "skills/dashboard-builder", "to": "skills/dashboard-builder" },
+            { "from": "skills/frontend-patterns", "to": "skills/frontend-patterns" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ai-site-brand",
+      "category": "Design",
+      "license": "MIT",
+      "keywords": ["higgsfield", "website", "brand", "branding"],
+      "description": "Higgsfield's website builder and brand-kit skills. They need the Higgsfield CLI and a Higgsfield account, and they chain with Higgsfield's image and video skills, which are not included.",
+      "shortDescription": "Higgsfield website builder and brand kit",
+      "sources": [
+        {
+          "id": "higgsfield-skills",
+          "repo": "higgsfield-ai/skills",
+          "author": "Higgsfield AI",
+          "homepage": "https://github.com/higgsfield-ai/skills",
+          "license": "MIT",
+          "licenseFiles": ["LICENSE"],
+          "copy": [
+            { "from": "higgsfield-websites", "to": "skills/higgsfield-websites" },
+            { "from": "higgsfield-brandkit", "to": "skills/higgsfield-brandkit" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rea",
+      "category": "Analyse",
+      "license": "MIT",
+      "keywords": ["reverse-engineering", "decompile", "web-bundle", "analysis"],
+      "description": "Reverse-engineer shipped software, web bundles and live pages with REA. This is the skill only: REA's own tools are installed separately with its setup command.",
+      "shortDescription": "Reverse engineering skill for REA",
+      "sources": [
+        {
+          "id": "rea",
+          "repo": "morluto/rea",
+          "author": "morluto",
+          "homepage": "https://rea.tools/",
+          "license": "MIT",
+          "licenseFiles": ["LICENSE"],
+          "copy": [{ "from": ".agents/skills/reverse-engineer-anything", "to": "skills/reverse-engineer-anything" }],
+          "notes": "Only the skill is included. The upstream plugin also registers an MCP server with a large tool set; this hub does not."
+        }
+      ]
+    },
+    {
+      "name": "unslop",
+      "category": "Design",
+      "license": "MIT AND CC-BY-4.0",
+      "keywords": ["design", "polish", "ui", "ai-slop"],
+      "description": "Turn vibecoded, AI-looking UI into a designed interface with its own character.",
+      "shortDescription": "Fix AI-looking UI",
+      "sources": [
+        {
+          "id": "unslop",
+          "repo": "heydamir/unslop",
+          "author": "Damir Sokolovsky",
+          "homepage": "https://heydamir.design/unslop",
+          "license": "CC-BY-4.0",
+          "licenseFiles": ["LICENSE"],
+          "copy": [{ "from": "skills/unslop", "to": "skills/unslop" }],
+          "notes": "Licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). The material is copied without changes."
+        }
+      ]
+    },
+    {
+      "name": "modern-web-guidance",
+      "category": "Design",
+      "mirror": true,
+      "license": "Apache-2.0",
+      "keywords": ["web", "best-practices", "chrome"],
+      "description": "Google Chrome's modern web platform guidance for coding agents.",
+      "shortDescription": "Modern web platform guidance from Google Chrome",
+      "sources": [
+        {
+          "id": "modern-web-guidance",
+          "repo": "GoogleChrome/modern-web-guidance",
+          "author": "Google Chrome",
+          "homepage": "https://developer.chrome.com/docs/modern-web-guidance",
+          "license": "Apache-2.0",
+          "mirrorExclude": [".github", ".in_use"],
+          "notes": "Mirrored whole, minus CI files. Google and Chrome do not endorse or sponsor this hub."
+        }
+      ]
+    },
+    {
+      "name": "floorplan",
+      "category": "Analyse",
+      "mirror": true,
+      "license": "MIT",
+      "keywords": ["codebase", "architecture", "map", "visualization"],
+      "description": "Draws an interactive map of how a codebase fits together.",
+      "shortDescription": "Interactive map of your codebase",
+      "sources": [
+        {
+          "id": "floorplan",
+          "repo": "haydenschmitty/floorplan",
+          "author": "Hayden Smith",
+          "homepage": "https://github.com/haydenschmitty/floorplan",
+          "license": "MIT",
+          "mirrorExclude": [".github", "tests"],
+          "notes": "Mirrored whole, minus CI files and tests, byte for byte so its CHECKSUMS.txt still verifies."
+        }
+      ]
+    },
+    {
+      "name": "craft-anything",
+      "category": "Analyse",
+      "license": "MIT",
+      "keywords": ["reverse-engineering", "investigation", "mcp", "analysis"],
+      "description": "Evidence-first investigation of how shipped software works, through the Craft Anything MCP tools. This is the skill only: the Windows app and its MCP server are downloaded from the Craft Anything project.",
+      "shortDescription": "Evidence-first investigation of shipped software",
+      "sources": [
+        {
+          "id": "craft-anything",
+          "repo": "storytold/craft-anything",
+          "author": "ArtCraft Team and the Craft Anything contributors",
+          "homepage": "https://github.com/storytold/craft-anything",
+          "license": "MIT OR Apache-2.0",
+          "licenseFiles": ["LICENSE-MIT", "LICENSE-APACHE", "NOTICE"],
+          "copy": [
+            { "from": "crates/setup/src/skill.md", "to": "skills/craft-anything/SKILL.md" },
+            { "from": "crates/setup/src/skill_recovery.md", "to": "skills/craft-anything/references/recovery.md" }
+          ],
+          "notes": "Only the skill text is included, renamed from the file names used inside the upstream setup crate. The ArtCraft name and logos are trademarks and are not included."
+        }
+      ]
+    },
+    {
+      "name": "open-motion",
+      "category": "Design",
+      "license": "MIT",
+      "keywords": ["motion", "animation", "mcp", "video"],
+      "description": "Setup and usage guide for OpenMotion, an open-source AI-native motion graphics runtime with an MCP server. This hub's own wrapper: OpenMotion itself is installed from its repository.",
+      "shortDescription": "Setup guide for the OpenMotion runtime",
+      "sources": [
+        {
+          "id": "open-motion",
+          "repo": "Yuan-ManX/open-motion",
+          "author": "Yuan-Man",
+          "homepage": "https://github.com/Yuan-ManX/open-motion",
+          "license": "MIT",
+          "licenseFiles": ["LICENSE"],
+          "copy": [],
+          "notes": "Nothing is copied. The skill in this plugin is an original guide written for this hub."
+        }
+      ]
+    }
+  ]
+}

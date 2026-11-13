@@ -1,0 +1,29 @@
+{
+  "name": "rea",
+  "version": "0.1.0",
+  "description": "Reverse-engineer shipped software, web bundles and live pages with REA. This is the skill only: REA's own tools are installed separately with its setup command.",
+  "author": {
+    "name": "Seanfo2332",
+    "url": "https://github.com/Seanfo2332"
+  },
+  "homepage": "https://github.com/Seanfo2332/design-hub",
+  "repository": "https://github.com/Seanfo2332/design-hub",
+  "license": "MIT",
+  "keywords": [
+    "reverse-engineering",
+    "decompile",
+    "web-bundle",
+    "analysis"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Rea",
+    "shortDescription": "Reverse engineering skill for REA",
+    "longDescription": "Reverse-engineer shipped software, web bundles and live pages with REA. This is the skill only: REA's own tools are installed separately with its setup command.",
+    "developerName": "Seanfo2332",
+    "category": "Analyse",
+    "capabilities": [
+      "Read"
+    ]
+  }
+}

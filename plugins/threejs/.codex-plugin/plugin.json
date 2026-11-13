@@ -1,0 +1,30 @@
+{
+  "name": "threejs",
+  "version": "0.1.0",
+  "description": "33 Three.js skills for ambitious 3D and WebGL work: procedural geometry and materials, water, clouds, atmosphere, shadows, cameras, post-processing, game systems and visual QA.",
+  "author": {
+    "name": "Seanfo2332",
+    "url": "https://github.com/Seanfo2332"
+  },
+  "homepage": "https://github.com/Seanfo2332/design-hub",
+  "repository": "https://github.com/Seanfo2332/design-hub",
+  "license": "MIT",
+  "keywords": [
+    "threejs",
+    "webgl",
+    "3d",
+    "shaders",
+    "graphics"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Threejs",
+    "shortDescription": "33 Three.js and WebGL skills",
+    "longDescription": "33 Three.js skills for ambitious 3D and WebGL work: procedural geometry and materials, water, clouds, atmosphere, shadows, cameras, post-processing, game systems and visual QA.",
+    "developerName": "Seanfo2332",
+    "category": "Design",
+    "capabilities": [
+      "Read"
+    ]
+  }
+}

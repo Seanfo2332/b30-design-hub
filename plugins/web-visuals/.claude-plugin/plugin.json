@@ -1,0 +1,19 @@
+{
+  "name": "web-visuals",
+  "version": "0.1.0",
+  "description": "Slides, UI demos, dashboards and front-end patterns for building and presenting web interfaces.",
+  "author": {
+    "name": "Seanfo2332",
+    "url": "https://github.com/Seanfo2332"
+  },
+  "homepage": "https://github.com/Seanfo2332/design-hub",
+  "repository": "https://github.com/Seanfo2332/design-hub",
+  "license": "MIT",
+  "keywords": [
+    "slides",
+    "dashboard",
+    "demo",
+    "frontend",
+    "patterns"
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "name": "design-hub",
+  "owner": {
+    "name": "Seanfo2332",
+    "url": "https://github.com/Seanfo2332"
+  },
+  "metadata": {
+    "description": "One place to install web design, motion, 3D and analysis skills for Claude Code and Codex."
+  },
+  "plugins": [
+    {
+      "name": "design-core",
+      "source": "./plugins/design-core",
+      "description": "The core web design toolkit: Impeccable, UI UX Pro Max and Anthropic's frontend-design, plus a design-director skill and three Claude Code agents (design-director, design-reviewer, reference-analyst) that choose the right skills, check how a built page renders, and study reference sites.",
+      "category": "Design",
+      "keywords": [
+        "design",
+        "frontend",
+        "ui",
+        "ux",
+        "agents"
+      ],
+      "license": "MIT AND Apache-2.0"
+    },
+    {
+      "name": "motion",
+      "source": "./plugins/motion",
+      "description": "GreenSock's official GSAP skills for web animation: core API, timelines, ScrollTrigger, plugins, React, utilities and performance.",
+      "category": "Design",
+      "keywords": [
+        "animation",
+        "gsap",
+        "scrolltrigger",
+        "motion"
+      ],
+      "license": "MIT"
+    },
+    {
+      "name": "threejs",
+      "source": "./plugins/threejs",
+      "description": "33 Three.js skills for ambitious 3D and WebGL work: procedural geometry and materials, water, clouds, atmosphere, shadows, cameras, post-processing, game systems and visual QA.",
+      "category": "Design",
+      "keywords": [
+        "threejs",
+        "webgl",
+        "3d",
+        "shaders",
+        "graphics"
+      ],
+      "license": "MIT"
+    },
+    {
+      "name": "web-visuals",
+      "source": "./plugins/web-visuals",
+      "description": "Slides, UI demos, dashboards and front-end patterns for building and presenting web interfaces.",
+      "category": "Design",
+      "keywords": [
+        "slides",
+        "dashboard",
+        "demo",
+        "frontend",
+        "patterns"
+      ],
+      "license": "MIT"
+    },
+    {
+      "name": "ai-site-brand",
+      "source": "./plugins/ai-site-brand",
+      "description": "Higgsfield's website builder and brand-kit skills. They need the Higgsfield CLI and a Higgsfield account, and they chain with Higgsfield's image and video skills, which are not included.",
+      "category": "Design",
+      "keywords": [
+        "higgsfield",
+        "website",
+        "brand",
+        "branding"
+      ],
+      "license": "MIT"
+    },
+    {
+      "name": "rea",
+      "source": "./plugins/rea",
+      "description": "Reverse-engineer shipped software, web bundles and live pages with REA. This is the skill only: REA's own tools are installed separately with its setup command.",
+      "category": "Analyse",
+      "keywords": [
+        "reverse-engineering",
+        "decompile",
+        "web-bundle",
+        "analysis"
+      ],
+      "license": "MIT"
+    },
+    {
+      "name": "unslop",
+      "source": "./plugins/unslop",
+      "description": "Turn vibecoded, AI-looking UI into a designed interface with its own character.",
+      "category": "Design",
+      "keywords": [
+        "design",
+        "polish",
+        "ui",
+        "ai-slop"
+      ],
+      "license": "MIT AND CC-BY-4.0"
+    },
+    {
+      "name": "modern-web-guidance",
+      "source": "./plugins/modern-web-guidance",
+      "description": "Google Chrome's modern web platform guidance for coding agents.",
+      "category": "Design",
+      "keywords": [
+        "web",
+        "best-practices",
+        "chrome"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "floorplan",
+      "source": "./plugins/floorplan",
+      "description": "Draws an interactive map of how a codebase fits together.",
+      "category": "Analyse",
+      "keywords": [
+        "codebase",
+        "architecture",
+        "map",
+        "visualization"
+      ],
+      "license": "MIT"
+    },
+    {
+      "name": "craft-anything",
+      "source": "./plugins/craft-anything",
+      "description": "Evidence-first investigation of how shipped software works, through the Craft Anything MCP tools. This is the skill only: the Windows app and its MCP server are downloaded from the Craft Anything project.",
+      "category": "Analyse",
+      "keywords": [
+        "reverse-engineering",
+        "investigation",
+        "mcp",
+        "analysis"
+      ],
+      "license": "MIT"
+    },
+    {
+      "name": "open-motion",
+      "source": "./plugins/open-motion",
+      "description": "Setup and usage guide for OpenMotion, an open-source AI-native motion graphics runtime with an MCP server. This hub's own wrapper: OpenMotion itself is installed from its repository.",
+      "category": "Design",
+      "keywords": [
+        "motion",
+        "animation",
+        "mcp",
+        "video"
+      ],
+      "license": "MIT"
+    }
+  ]
+}

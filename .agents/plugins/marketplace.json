@@ -1,0 +1,140 @@
+{
+  "name": "design-hub",
+  "interface": {
+    "displayName": "Design Hub"
+  },
+  "plugins": [
+    {
+      "name": "design-core",
+      "source": {
+        "source": "local",
+        "path": "./plugins/design-core"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Design"
+    },
+    {
+      "name": "motion",
+      "source": {
+        "source": "local",
+        "path": "./plugins/motion"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Design"
+    },
+    {
+      "name": "threejs",
+      "source": {
+        "source": "local",
+        "path": "./plugins/threejs"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Design"
+    },
+    {
+      "name": "web-visuals",
+      "source": {
+        "source": "local",
+        "path": "./plugins/web-visuals"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Design"
+    },
+    {
+      "name": "ai-site-brand",
+      "source": {
+        "source": "local",
+        "path": "./plugins/ai-site-brand"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Design"
+    },
+    {
+      "name": "rea",
+      "source": {
+        "source": "local",
+        "path": "./plugins/rea"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Analyse"
+    },
+    {
+      "name": "unslop",
+      "source": {
+        "source": "local",
+        "path": "./plugins/unslop"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Design"
+    },
+    {
+      "name": "modern-web-guidance",
+      "source": {
+        "source": "local",
+        "path": "./plugins/modern-web-guidance"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Design"
+    },
+    {
+      "name": "floorplan",
+      "source": {
+        "source": "local",
+        "path": "./plugins/floorplan"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Analyse"
+    },
+    {
+      "name": "craft-anything",
+      "source": {
+        "source": "local",
+        "path": "./plugins/craft-anything"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Analyse"
+    },
+    {
+      "name": "open-motion",
+      "source": {
+        "source": "local",
+        "path": "./plugins/open-motion"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Design"
+    }
+  ]
+}

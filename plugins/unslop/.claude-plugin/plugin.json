@@ -1,0 +1,18 @@
+{
+  "name": "unslop",
+  "version": "0.1.0",
+  "description": "Turn vibecoded, AI-looking UI into a designed interface with its own character.",
+  "author": {
+    "name": "Seanfo2332",
+    "url": "https://github.com/Seanfo2332"
+  },
+  "homepage": "https://github.com/Seanfo2332/design-hub",
+  "repository": "https://github.com/Seanfo2332/design-hub",
+  "license": "MIT AND CC-BY-4.0",
+  "keywords": [
+    "design",
+    "polish",
+    "ui",
+    "ai-slop"
+  ]
+}

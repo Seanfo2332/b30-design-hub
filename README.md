@@ -113,6 +113,16 @@ The reviewer and analyst need Playwright with Chromium. They check first, and th
 
 **Skills are instructions that run with your permissions.** Read a skill before installing it, as you would a script. Six plugins also bundle helper scripts that Claude may run when you use their skills: `design-core`, `floorplan`, `ai-site-brand`, `threejs`, `unslop` and `web-visuals`. This hub pins every upstream to an exact commit (see `sources.lock.json`), and updates arrive as pull requests that are read before merging.
 
+## Troubleshooting
+
+**Windows: "Filename too long" while adding the marketplace.** Windows limits paths to 260 characters, and a few Three.js example files are deeply nested (the longest path in this repository is 148 characters, before your client's own folder is added). Turn on Git's long-path support and try again:
+
+```
+git config --global core.longpaths true
+```
+
+If it still fails, enable Windows long paths (Group Policy "Enable Win32 long paths", or the registry value `LongPathsEnabled` set to 1), or install only the plugins you need after adding the marketplace from a shorter home folder.
+
 ## Repository layout
 
 ```

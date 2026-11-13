@@ -66,6 +66,27 @@ def test_a_tampered_lock_cannot_delete_outside_the_plugin_folder(sync):
             sync.safe_relative(installed)
 
 
+COPIES = [
+    {"from": "skills", "to": "skills", "children": True},
+    {"from": "docs/tool.md", "to": "extra/tool.md"},
+    {"from": ".claude/skills/brand", "to": "skills/brand"},
+]
+
+
+@pytest.mark.parametrize(
+    ("upstream_path", "expected"),
+    [
+        ("skills/alpha/run.sh", "skills/alpha/run.sh"),
+        ("docs/tool.md", "extra/tool.md"),
+        (".claude/skills/brand/scripts/a.cjs", "skills/brand/scripts/a.cjs"),
+        ("other/file.sh", None),
+        ("skillsX/file.sh", None),
+    ],
+)
+def test_destination_for_maps_upstream_paths_into_the_plugin(sync, upstream_path, expected):
+    assert sync.destination_for(upstream_path, COPIES) == expected
+
+
 def test_bump_patch_increments_only_the_patch_number(sync):
     assert sync.bump_patch("0.1.9") == "0.1.10"
 

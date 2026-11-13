@@ -35,6 +35,7 @@ SHA_PATTERN = re.compile(r"^[0-9a-f]{40}$")
 NAME_PATTERN = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 GIT_CONFIG = (("core.autocrlf", "false"), ("core.symlinks", "false"), ("core.longpaths", "true"))
 SPECIAL_MODES = ("120000", "160000")  # symlink, submodule
+EXECUTABLE_MODE = "100755"
 
 
 # --------------------------------------------------------------------------- helpers
@@ -236,6 +237,46 @@ def write_third_party(repo_dir: Path, plugin_dir: Path, source: dict, commit: st
     write_text(target / "SOURCE.md", source_note(source, commit, written))
 
 
+def upstream_executables(repo_dir: Path, commit: str, patterns: list[str] | None) -> list[str]:
+    """Paths, relative to the upstream root, that upstream marks executable."""
+    scope = [] if patterns is None else ["--", *(p.lstrip("/") for p in patterns)]
+    listing = run_git(["ls-tree", "-r", "-z", commit, *scope], cwd=repo_dir)
+    entries = (entry.split("\t", 1) for entry in listing.split("\0") if entry)
+    return [path for meta, path in entries if meta.startswith(EXECUTABLE_MODE)]
+
+
+def destination_for(upstream_path: str, copies: list[dict]) -> str | None:
+    """Where a copied upstream file lands inside the plugin, or None if it is not copied."""
+    for entry in copies:
+        source, target = entry["from"], entry["to"]
+        if upstream_path == source:
+            return target
+        if upstream_path.startswith(f"{source}/"):
+            return target + upstream_path[len(source):]
+    return None
+
+
+def mark_executable(plugin_dir: Path, rel_paths: list[str]) -> None:
+    """Keep upstream's executable bit. Windows cannot hold it on disk, so it goes into git's index."""
+    for rel in rel_paths:
+        target = plugin_dir / rel
+        if not target.is_file():
+            continue
+        if os.name != "nt":
+            target.chmod(target.stat().st_mode | 0o111)
+        elif (ROOT / ".git").exists():
+            tracked = target.resolve().relative_to(ROOT.resolve()).as_posix()
+            run_git(["update-index", "--add", "--chmod=+x", "--", tracked], cwd=ROOT)
+
+
+def executable_destinations(repo_dir: Path, commit: str, source: dict, patterns: list[str] | None) -> list[str]:
+    paths = upstream_executables(repo_dir, commit, patterns)
+    if patterns is None:
+        return paths
+    mapped = (destination_for(path, source["copy"]) for path in paths)
+    return [destination for destination in mapped if destination]
+
+
 def sync_source(plugin: dict, source: dict, lock: dict, update: bool) -> dict:
     """Fetch and copy one source. Returns its new lock entry."""
     checked_name("source id", source["id"])
@@ -254,6 +295,7 @@ def sync_source(plugin: dict, source: dict, lock: dict, update: bool) -> dict:
     else:
         written = [path for entry in source["copy"] for path in copy_entry(repo_dir, plugin_dir, entry)]
         write_third_party(repo_dir, plugin_dir, source, commit, written)
+    mark_executable(plugin_dir, executable_destinations(repo_dir, commit, source, patterns))
     date = run_git(["show", "-s", "--format=%cs", commit], cwd=repo_dir).strip()
     return {"repo": source["repo"], "commit": commit, "commitDate": date, "installed": written}
 

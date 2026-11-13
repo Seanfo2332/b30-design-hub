@@ -1,6 +1,7 @@
 """End-to-end sync against a throwaway local upstream. No network is used."""
 from __future__ import annotations
 
+import os
 import subprocess
 from pathlib import Path
 
@@ -127,6 +128,49 @@ def test_mirror_skips_ci_and_top_level_tests_but_keeps_nested_tests(sync, hub):
     assert not (plugin / "tests").exists()
     assert not (plugin / ".git").exists()
     assert (plugin / "skills" / "alpha" / "tests" / "keep.txt").is_file()
+
+
+def add_script(upstream: Path) -> None:
+    write(upstream / "skills" / "alpha" / "run.sh", "#!/bin/sh\necho hi\n")
+    write(upstream / "skills" / "alpha" / "plain.txt", "not executable\n")
+    git(["add", "-A"], upstream)
+    git(["update-index", "--chmod=+x", "skills/alpha/run.sh"], upstream)
+    git(["commit", "-q", "-m", "add script"], upstream)
+
+
+def assert_executable(hub: Path, plugin: str, rel: str) -> None:
+    """Windows keeps the bit in git's index; elsewhere it is a real permission bit."""
+    path = hub / "plugins" / plugin / rel
+    if os.name == "nt":
+        staged = git(["ls-files", "-s", "--", f"plugins/{plugin}/{rel}"], hub)
+        assert staged.startswith("100755"), staged
+    else:
+        assert path.stat().st_mode & 0o111
+
+
+def test_the_executable_bit_survives_a_copy(sync, hub, upstream):
+    add_script(upstream)
+    git(["init", "-q"], hub)
+    sync.sync_source({"name": "p"}, COPY_SOURCE, {"sources": {}}, update=False)
+    assert_executable(hub, "p", "skills/alpha/run.sh")
+    if os.name == "nt":
+        assert "plain.txt" not in git(["ls-files", "-s"], hub)
+    else:
+        assert not (hub / "plugins" / "p" / "skills" / "alpha" / "plain.txt").stat().st_mode & 0o111
+
+
+def test_the_executable_bit_survives_a_mirror(sync, hub, upstream):
+    add_script(upstream)
+    git(["init", "-q"], hub)
+    source = {"id": "up", "repo": "owner/up", "author": "A", "license": "MIT", "mirrorExclude": [".github", "tests"]}
+    sync.sync_source({"name": "mirrored"}, source, {"sources": {}}, update=False)
+    assert_executable(hub, "mirrored", "skills/alpha/run.sh")
+
+
+def test_a_hub_that_is_not_a_git_repo_still_syncs_on_windows(sync, hub, upstream):
+    add_script(upstream)
+    sync.sync_source({"name": "p"}, COPY_SOURCE, {"sources": {}}, update=False)
+    assert (hub / "plugins" / "p" / "skills" / "alpha" / "run.sh").is_file()
 
 
 def test_a_symlink_in_a_copied_path_is_refused(sync, hub, upstream):

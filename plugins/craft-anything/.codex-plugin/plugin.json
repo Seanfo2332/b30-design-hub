@@ -1,6 +1,6 @@
 {
   "name": "craft-anything",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Evidence-first investigation of how shipped software works, through the Craft Anything MCP tools. This is the skill only: the Windows app and its MCP server are downloaded from the Craft Anything project.",
   "author": {
     "name": "Seanfo2332",

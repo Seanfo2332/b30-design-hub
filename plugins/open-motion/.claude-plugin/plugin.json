@@ -1,6 +1,6 @@
 {
   "name": "open-motion",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Setup and usage guide for OpenMotion, an open-source AI-native motion graphics runtime with an MCP server. This hub's own wrapper: OpenMotion itself is installed from its repository.",
   "author": {
     "name": "Seanfo2332",

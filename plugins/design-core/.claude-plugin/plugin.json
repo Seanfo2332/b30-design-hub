@@ -1,6 +1,6 @@
 {
   "name": "design-core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The core web design toolkit: Impeccable, UI UX Pro Max and Anthropic's frontend-design, plus a design-director skill and three Claude Code agents (design-director, design-reviewer, reference-analyst) that choose the right skills, check how a built page renders, and study reference sites.",
   "author": {
     "name": "Seanfo2332",

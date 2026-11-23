@@ -1,6 +1,6 @@
 {
   "name": "motion",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "GreenSock's official GSAP skills for web animation: core API, timelines, ScrollTrigger, plugins, React, utilities and performance.",
   "author": {
     "name": "Seanfo2332",

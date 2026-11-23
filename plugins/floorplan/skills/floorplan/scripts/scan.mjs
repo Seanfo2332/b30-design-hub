@@ -11,12 +11,15 @@
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
-import { discover, listGitFiles, explainGitError, gitInfo, classify, toPosix, parseArgs, fmtNum, HARD_IGNORE_DIRS, MAP_DIR, LEGACY_MAP_DIR, isMapDir, mapDir, keepOutOfGit, unattendedMode, printJson, skippedConfigs, MAX_CONFIG_BYTES } from './lib/common.mjs';
-import { extract, callableCallsVia } from './lib/extract.mjs';
+import { discover, listGitFiles, explainGitError, gitInfo, classify, themeRoots, toPosix, parseArgs, fmtNum, HARD_IGNORE_DIRS, MAP_DIR, LEGACY_MAP_DIR, isMapDir, mapDir, keepOutOfGit, unattendedMode, printJson, skippedConfigs, MAX_CONFIG_BYTES, readJsonFile, notMapped } from './lib/common.mjs';
+import { extract, callableCallsVia, phpPages } from './lib/extract.mjs';
 import { findIssues } from './lib/health.mjs';
 import { findScreens } from './lib/screens.mjs';
-import { createResolver } from './lib/resolve.mjs';
-import { resolveRoutes, matchCalls } from './lib/routes.mjs';
+import { createResolver, applyGlobalUsings } from './lib/resolve.mjs';
+import { resolveRoutes, matchCalls, matchWayfinder, inertiaLinks } from './lib/routes.mjs';
+import { nuxtAutoImports } from './lib/nuxt.mjs';
+import { serverlessRoutes } from './lib/serverless.mjs';
+import { edgeFunctionRoutes } from './lib/supabase-functions.mjs';
 
 const args = parseArgs(process.argv.slice(2));
 const unattended = unattendedMode(args);
@@ -76,12 +79,13 @@ if (unattended && problems.length) {
 
 // ---------- 2. classify, read, extract ----------
 const files = [];
+const themes = themeRoots(fileList.map((f) => f.path));
 for (const { path: p, repo } of fileList) {
   const abs = path.join(root, p);
   let st;
   try { st = fs.statSync(abs); } catch { continue; }
   if (!st.isFile()) continue;
-  const { category, lang } = classify(p, st.size);
+  const { category, lang } = classify(p, st.size, { themes });
   const f = { path: p, repo, category, lang, bytes: st.size, loc: 0 };
   if ((category === 'code' || category === 'config' || category === 'docs') && st.size <= maxBytes) {
     let src;
@@ -123,6 +127,7 @@ function countLines(abs) {
 }
 
 // ---------- 3. resolve imports ----------
+applyGlobalUsings(files);
 const resolve = createResolver(root, files);
 const edges = [];
 const externals = new Map(); // `${eco}:${name}` -> { eco, name, count, files:Set }
@@ -146,9 +151,13 @@ for (const f of files) {
       e.count++;
       e.files.add(f.path);
       extEdges.push({ from: f.path, pkg: key });
-    } else if (res.unresolved) unresolved++;
+    } else if (res.wayfinder) imp.wayfinder = res.wayfinder; // a generated Laravel route helper: matched to endpoints below
+    else if (res.unresolved) unresolved++;
   }
 }
+// Nuxt's auto-imports: components and composables a file uses with no import line (lib/nuxt.mjs)
+const nuxt = nuxtAutoImports(root, files);
+for (const e of nuxt.edges) edges.push(e);
 // merge duplicate edges (same from/to)
 const edgeMap = new Map();
 for (const e of edges) {
@@ -170,8 +179,21 @@ if (wrappers.size) for (const f of files) {
 }
 
 // ---------- 4. routes and HTTP calls ----------
+// plain PHP sites: each script under the document root is a page with its own address (needs the imports above)
+phpPages(files);
 const routes = resolveRoutes(files);
+// Serverless Framework: endpoints declared in serverless.yml, placed in the file that answers them (lib/serverless.mjs)
+const serverless = serverlessRoutes(files, (p) => { try { return fs.readFileSync(path.join(root, p), 'utf8'); } catch { return ''; } });
+routes.push(...serverless.routes);
+// Supabase Edge Functions: each one's address under /functions/v1 (lib/supabase-functions.mjs)
+const edge = edgeFunctionRoutes(files, routes, (p) => { try { return fs.readFileSync(path.join(root, p), 'utf8'); } catch { return ''; } });
 const http = matchCalls(files, routes);
+// Laravel: Wayfinder's named routes and controller actions, and the Inertia page each endpoint opens
+const wayfinderLinks = matchWayfinder(files, routes, (p) => { try { return fs.readFileSync(path.join(root, p), 'utf8'); } catch { return ''; } });
+const inertia = inertiaLinks(files, routes);
+http.push(...wayfinderLinks, ...inertia.http);
+const fileAt = new Map(files.map((f) => [f.path, f]));
+for (const { file, hint } of inertia.hints) { const f = fileAt.get(file); if (f) f.screens = [...(f.screens || []), hint]; }
 const hosts = [];
 for (const f of files) for (const h of f.hosts || []) hosts.push({ from: f.path, host: h.host, line: h.line });
 
@@ -238,6 +260,11 @@ if (problems.length) {
 const byCat = {};
 for (const f of scan.files) byCat[f.category] = (byCat[f.category] || 0) + 1;
 line(`FILES  ${Object.entries(byCat).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join(' · ')}`);
+// the kinds the map will show: architecture.json's "include" once it's written, code alone until then
+let include = ['code'];
+try { const a = readJsonFile(path.join(outDir, 'architecture.json')); if (Array.isArray(a?.include) && a.include.every((k) => typeof k === 'string')) include = a.include; } catch {}
+const leftOut = notMapped(scan.files, include);
+if (leftOut.line) line(leftOut.line);
 const byLang = {};
 for (const f of code) { byLang[f.lang] ??= { files: 0, loc: 0 }; byLang[f.lang].files++; byLang[f.lang].loc += f.loc; }
 line(`CODE   ${Object.entries(byLang).sort((a, b) => b[1].loc - a[1].loc).slice(0, 10).map(([k, v]) => `${k} ${v.files} files/${fmtNum(v.loc)} loc`).join(' · ')}`);
@@ -294,6 +321,12 @@ for (const e of scan.edges) {
 line(`IMPORT EDGES  ${scan.edges.length} file->file resolved, ${unresolved} unresolved. Heaviest directory->directory:`);
 for (const [k, v] of [...dirEdges.entries()].sort((a, b) => b[1] - a[1]).slice(0, 25)) line(`  ${String(v).padStart(5)}  ${k}`);
 line();
+for (const a of nuxt.apps) {
+  line(`NUXT  ${a.dir}: ${a.files} file(s) linked to the components and composables they use without importing them (${a.links} links), ${a.source === '.nuxt'
+    ? 'from .nuxt/components.d.ts and .nuxt/imports.d.ts'
+    : `${a.source === 'mixed' ? 'partly ' : ''}from Nuxt's folder conventions (components/, composables/, utils/), since .nuxt/ has no ${a.source === 'mixed' ? 'complete ' : ''}name lists until the app has been built or started once`}`);
+  line();
+}
 
 line(`HTTP  ${routes.length} route definitions, ${http.length} call->route matches (cross-file links not visible to imports)`);
 const httpDir = new Map();
@@ -303,6 +336,22 @@ for (const h of http) {
 }
 for (const [k, v] of [...httpDir.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12)) line(`  ${String(v).padStart(5)}  ${k}`);
 line();
+
+const laravel = routes.filter((r) => r.framework === 'laravel');
+if (laravel.length) {
+  const routeFiles = new Set(laravel.map((r) => r.defFile || r.file));
+  line(`LARAVEL  ${laravel.length} endpoints from ${routeFiles.size} route file(s), ${laravel.filter((r) => r.defFile).length} answered by controller methods (their endpoints sit in the controller's file)`);
+  line(`  ${wayfinderLinks.length} Wayfinder call(s) matched to endpoints · ${inertia.hints.length} Inertia page(s) linked to the endpoint that opens them`);
+  const loaded = new Set();
+  for (const f of files) {
+    if (!f.mounts?.length) continue;
+    const specs = new Set(f.mounts.map((m) => m.spec));
+    for (const i of f.imports || []) if (specs.has(i.spec)) for (const p of i.files || []) loaded.add(p);
+  }
+  const loose = [...routeFiles].filter((p) => !loaded.has(p) && !/(^|\/)bootstrap\/app\.php$|(^|\/)Providers\//.test(p));
+  if (loose.length) line(`  route files nothing loads (their addresses may be missing a prefix): ${loose.slice(0, 6).join(', ')}${loose.length > 6 ? ' …' : ''}`);
+  line();
+}
 
 // Firebase Cloud Functions: endpoints are already in the HTTP line; background ones need a place on the map
 const fbRoutes = files.flatMap((f) => (f.routes || []).filter((r) => r.framework === 'firebase'));
@@ -314,6 +363,25 @@ if (fbRoutes.length || triggers.length) {
     line('  background (schedules and triggers; place them in a worker node):');
     for (const t of triggers.slice(0, 20)) line(`    ${t.name}  ${t.on}${t.what ? ` "${t.what}"` : ''}  ${t.file}:${t.line}`);
     if (triggers.length > 20) line(`    … ${triggers.length - 20} more`);
+  }
+  line();
+}
+
+// Serverless Framework: how many endpoints its configs declare, and the background functions beside them
+if (edge.functions.length) {
+  const n = edge.functions.reduce((a, x) => a + x.routes, 0);
+  line(`SUPABASE EDGE FUNCTIONS  ${edge.functions.length} function(s), ${n} endpoint(s) under /functions/v1: ${edge.functions.slice(0, 8).map((x) => x.name).join(', ')}${edge.functions.length > 8 ? ' …' : ''}`);
+  line();
+}
+
+if (serverless.configs.length) {
+  const signedIn = serverless.routes.filter((r) => r.auth).length;
+  line(`SERVERLESS  ${serverless.routes.length} endpoints from ${serverless.configs.length} config file(s) (${serverless.configs.slice(0, 4).join(', ')}${serverless.configs.length > 4 ? ' …' : ''}), ${signedIn} behind an authorizer or API key, ${serverless.triggers.length} background`);
+  if (serverless.unresolved.length) line(`  ${serverless.unresolved.length} function(s) whose handler file wasn't found, so their endpoints aren't on the map: ${serverless.unresolved.slice(0, 5).map((u) => `${u.name} (${u.handler})`).join(', ')}${serverless.unresolved.length > 5 ? ' …' : ''}`);
+  if (serverless.triggers.length) {
+    line('  background (schedules, queues, streams, buckets; place them in a worker node):');
+    for (const t of serverless.triggers.slice(0, 20)) line(`    ${t.name}  ${t.on}${t.what ? ` "${t.what}"` : ''}  ${t.file}:${t.line}`);
+    if (serverless.triggers.length > 20) line(`    … ${serverless.triggers.length - 20} more`);
   }
   line();
 }
@@ -353,11 +421,15 @@ else {
       files: scan.files.length,
       outsideRepos: looseCount,
       byCategory: byCat,
+      notMapped: leftOut.byCategory,
       code: { files: code.length, loc: code.reduce((s, f) => s + f.loc, 0) },
       byLanguage: byLang,
       routes: routes.length,
       httpMatches: http.length,
       importEdges: scan.edges.length,
+      autoImportLinks: nuxt.edges.length,
+      wayfinderLinks: wayfinderLinks.length,
+      inertiaPages: inertia.hints.length,
       unresolvedImports: unresolved,
       externalPackages: scan.externals.length,
       notRead: unread.length,

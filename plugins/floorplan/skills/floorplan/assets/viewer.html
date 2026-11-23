@@ -637,6 +637,8 @@ if (!G) { document.body.innerHTML = '<p style="padding:2rem">No data. Run build.
 const PLAN = !!G.meta.blueprint;
 // an exported copy (serve.mjs --export, or the Export button): read-only, for people without Claude or Codex
 const EXPORTED = G.meta.exported || null;
+// set when an exported copy is embedded in a page that takes its "Ask about this" (see askHost)
+const HOST_ASK = !!EXPORTED && window.parent !== window && new URLSearchParams(location.hash.slice(1)).get('ask') === 'host';
 if (typeof ELK === 'undefined') { document.body.innerHTML = '<p style="padding:2rem">Could not load the ELK layout engine. Rebuild the map with build.mjs.</p>'; return; }
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -772,7 +774,7 @@ const P = {
 };
 const icon = (k) => `<svg viewBox="0 0 24 24">${P[k] || P.file}</svg>`;
 const iconI = (k) => `<svg class="i" viewBox="0 0 24 24">${P[k] || P.file}</svg>`;
-const symIcon = (kind) => (['class', 'interface', 'struct', 'type', 'enum', 'record', 'trait', 'object'].includes(kind) ? 'class' : 'function');
+const symIcon = (kind) => (['class', 'interface', 'protocol', 'actor', 'struct', 'type', 'enum', 'record', 'trait', 'object'].includes(kind) ? 'class' : 'function');
 
 // ======================= model =======================
 const nodes = new Map(G.nodes.map((n) => [n.id, n]));
@@ -1286,7 +1288,7 @@ function itemMenu(id) {
     id.startsWith('x:') ? { label: `Go to ${i.name}`, icon: 'right', hint: '2×click', run: () => reveal(real) }
       : drillable(real) && state.container !== real ? { label: 'Open', icon: 'drill', hint: '2×click', run: () => open(real) } : null,
     state.container === 'q:answer' && !id.startsWith('x:') ? { label: 'Show on the map', icon: 'external', run: () => reveal(real) } : null,
-    EXPORTED ? null : { label: 'Ask about this', icon: 'spark', run: () => addAskContext(real) },
+    EXPORTED ? (HOST_ASK ? { label: 'Ask about this', icon: 'spark', run: () => askHost([real]) } : null) : { label: 'Ask about this', icon: 'spark', run: () => addAskContext(real) },
     { label: 'Show details', icon: 'panel', run: () => { setPanel(true); if (id.startsWith('x:')) reveal(real); else select(id); } },
     '-',
     path ? { label: i.type === 'route' ? 'Copy endpoint' : 'Copy path', icon: 'copy', run: () => copy(path) } : null,
@@ -1298,7 +1300,7 @@ function edgeMenu(e) {
   const ep = (x) => x.startsWith('x:') ? connEntity(x) : x.startsWith('m:') ? 'f:' + x.slice(2) : x;
   return [
     { title: `${nameOf(e.a)} → ${nameOf(e.b)}` },
-    EXPORTED ? null : { label: 'Ask about this connection', icon: 'spark', run: () => { addAskContext(ep(e.a)); addAskContext(ep(e.b)); } },
+    EXPORTED ? (HOST_ASK ? { label: 'Ask about this connection', icon: 'spark', run: () => askHost([ep(e.a), ep(e.b)]) } : null) : { label: 'Ask about this connection', icon: 'spark', run: () => { addAskContext(ep(e.a)); addAskContext(ep(e.b)); } },
     { label: 'Show details', icon: 'panel', run: () => { setPanel(true); select({ edge: e.id }); } },
     '-',
     { label: `Go to ${nameOf(e.a)}`, icon: 'left', run: () => reveal(ep(e.a)) },
@@ -1312,8 +1314,16 @@ function canvasMenu() {
     state.container !== 'root' ? { label: 'Back to overview', icon: 'home', run: () => go('root') } : null,
     '-',
     { label: 'Search', icon: 'search', hint: '/', run: openPalette },
-    EXPORTED ? null : { label: 'Ask about this view', icon: 'spark', run: () => { if (state.container !== 'root' && state.container !== 'q:answer') addAskContext(state.container); askInput.focus(); } },
+    EXPORTED ? (HOST_ASK ? { label: 'Ask about this view', icon: 'spark', run: () => askHost(state.container !== 'root' && state.container !== 'q:answer' ? [state.container] : []) } : null) : { label: 'Ask about this view', icon: 'spark', run: () => { if (state.container !== 'root' && state.container !== 'q:answer') addAskContext(state.container); askInput.focus(); } },
   ];
+}
+// An exported copy shown inside another page has no Ask bar of its own, but the page around it may have one. That
+// page opts in by opening the map with `ask=host` in the address's hash; then "Ask about this" sends the chosen
+// items (ids and names only) to it as a `floorplan:ask` message. Without the flag, an exported copy sends nothing.
+function askHost(ids) {
+  const items = ids.filter((id) => Q.exists(id)).map((id) => ({ id, name: info(id).name }));
+  window.parent.postMessage({ type: 'floorplan:ask', items }, '*');
+  toast(items.length ? `Asking about ${items.map((x) => x.name).join(' and ')}` : 'Ask about this view');
 }
 svg.addEventListener('contextmenu', (ev) => { ev.preventDefault(); hideTip(); openMenu(ev, canvasMenu()); });
 window.addEventListener('pointerdown', (ev) => { if (!ctxEl.hidden && !ctxEl.contains(ev.target)) closeMenu(); }, true);
@@ -1423,8 +1433,9 @@ $('#z-fit').onclick = () => fit(true);
 function setHash(container, sel) {
   if (container.startsWith('q:')) return; // answer views are transient
   const p = new URLSearchParams();
-  const tour = new URLSearchParams(location.hash.slice(1)).get('tour'); // a page embedding the map can say tour=0; keep it while moving around
-  if (tour !== null) p.set('tour', tour);
+  // a page embedding the map can say tour=0 or ask=host; keep them while moving around
+  const kept = new URLSearchParams(location.hash.slice(1));
+  for (const key of ['tour', 'ask']) if (kept.get(key) !== null) p.set(key, kept.get(key));
   if (container !== 'root') p.set('v', container);
   if (sel && typeof sel === 'string') p.set('s', sel);
   const s = p.toString();
@@ -1582,7 +1593,28 @@ function renderLegend(view) {
 }
 
 // ======================= inspector =======================
-const editorUrl = (p, line = 1) => G.meta.root && !PLAN ? `vscode://file/${encodeURI(G.meta.root.replace(/\\/g, '/'))}/${encodeURI(p)}:${line}` : null;
+// ---------- editor links ----------
+// "Open in editor": a link in an editor's own scheme, from the map's server (--editor), else architecture.json's
+// "editor", else VS Code. {path} is the file's full path, {line} its line and {column} 1. Both were checked when they
+// were set (editorTemplate in page-safety.mjs); they're checked again here, against the same list of schemes, so text
+// in the page can never make this a script, data or web link.
+const EDITOR_SCHEMES = ['vscode', 'vscode-insiders', 'vscodium', 'cursor', 'windsurf', 'zed', 'idea', 'phpstorm', 'pycharm', 'webstorm', 'goland', 'rubymine', 'clion', 'rider', 'txmt', 'mvim', 'subl'];
+const LINK_BREAKERS = ['"', "'", '<', '>', '`', String.fromCharCode(92)];
+const editorLink = (t) => typeof t === 'string' && t.length <= 300 && t.includes('{path}')
+  && EDITOR_SCHEMES.includes((/^([a-z][a-z0-9+.-]*):/i.exec(t)?.[1] || '').toLowerCase())
+  && ![...t].some((c) => c.charCodeAt(0) <= 32 || c.charCodeAt(0) === 127 || LINK_BREAKERS.includes(c)) ? t : null;
+const EDITOR = editorLink(window.FLOORPLAN_SERVER?.editor) || editorLink(G.meta.editor) || 'vscode://file/{path}:{line}';
+// a path as part of a link: encodeURI, plus the characters that would start a query, a fragment or another parameter
+const linkPath = (s) => encodeURI(s).replace(/[#?&=+]/g, (c) => '%' + c.charCodeAt(0).toString(16).toUpperCase());
+const editorUrl = (p, line = 1) => {
+  if (!G.meta.root || PLAN) return null;
+  try {
+    const full = linkPath(G.meta.root.replace(/[\\]/g, '/').replace(/[/]+$/, '') + '/' + p);
+    const at = { path: full, line: String(Math.max(1, Math.floor(Number(line)) || 1)), column: '1' };
+    return EDITOR.replace(/[{](path|line|column)[}]/g, (_, k) => at[k]);
+  } catch { return null; } // a path encodeURI can't take (a lone surrogate) gets no link
+};
+// ---------- end: editor links ----------
 const rowFor = (item, extra = '', dotColor) => {
   const i = info(item);
   return `<a class="row" data-go="${hk(item)}" title="${h(i.path || '')}"><span class="dot" style="background:${dotColor || colorOf(i)}"></span><span class="rt"><div class="rn">${h(i.name)}</div>${i.desc ? `<div class="rd">${h(i.desc)}</div>` : ''}</span>${extra ? `<span class="rc">${extra}</span>` : ''}</a>`;
@@ -1726,7 +1758,7 @@ function itemPanel(item, viaConnector) {
     if (f.note) html += `<div class="callout">${h(f.note)}</div>`;
     if (f.tooLarge) html += `<div class="callout">Too big for Floorplan to read, so what it uses, its endpoints and any secrets in it weren’t checked. Ask Claude or Codex to update the floorplan with a bigger file limit to include it.</div>`;
     html += pathBox(f.p);
-    if (url) actions.push(`<a class="btn soft" href="${url}">${iconI('open')}Open in editor</a>`);
+    if (url) actions.push(`<a class="btn soft" href="${hk(url)}">${iconI('open')}Open in editor</a>`);
     if (actions.length) html += `<div class="actions">${actions.join('')}</div>`;
     const owner = nodes.get(f.n);
     html += `</div><div class="sec"><div class="stats">${PLAN ? `<div><b>${fmt(G.links.filter((l) => l.a === fid).length)}</b><span>uses</span></div>` : `<div><b>${fmt(f.loc)}</b><span>lines</span></div>`}<div><b>${(routesByFile.get(f.p) || []).length}</b><span>endpoints</span></div><div><b>${technical() ? (f.s || []).length : fmt(G.links.filter((l) => l.b === 'f:' + f.p).length)}</b><span>${technical() ? 'exports' : 'used by'}</span></div></div>
@@ -1741,7 +1773,7 @@ function itemPanel(item, viaConnector) {
   } else if (i.type === 'route') {
     const r = i.r, url = editorUrl(r.f, r.l);
     html += pathBox(`${r.m} ${r.p}`);
-    if (url) actions.push(`<a class="btn soft" href="${url}">${iconI('open')}Open handler</a>`);
+    if (url) actions.push(`<a class="btn soft" href="${hk(url)}">${iconI('open')}Open handler</a>`);
     html += `<div class="actions">${actions.join('')}</div></div>`;
     html += `<div class="sec"><h3>Handled by</h3><div class="list">${rowFor('f:' + r.f, r.h ? h(r.h) + '()' : '')}</div></div>`;
     const ri = routes.indexOf(r);
@@ -1752,7 +1784,7 @@ function itemPanel(item, viaConnector) {
   } else if (i.type === 'symbol') {
     const url = editorUrl(i.f.p, i.s[2]);
     html += pathBox(`${i.f.p}:${i.s[2]}`);
-    if (url) actions.push(`<a class="btn soft" href="${url}">${iconI('open')}Open in editor</a>`);
+    if (url) actions.push(`<a class="btn soft" href="${hk(url)}">${iconI('open')}Open in editor</a>`);
     html += `<div class="actions">${actions.join('')}</div></div>`;
     html += `<div class="sec"><h3>Defined in</h3><div class="list">${rowFor('f:' + i.f.p)}</div></div>`;
     const users = G.links.filter((l) => l.b === 'f:' + i.f.p && (l.names || []).some((nm) => nm === i.s[0] || (nm === 'default' && i.s[3])));

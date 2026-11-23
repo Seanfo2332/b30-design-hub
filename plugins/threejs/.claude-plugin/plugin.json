@@ -1,6 +1,6 @@
 {
   "name": "threejs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "33 Three.js skills for ambitious 3D and WebGL work: procedural geometry and materials, water, clouds, atmosphere, shadows, cameras, post-processing, game systems and visual QA.",
   "author": {
     "name": "Seanfo2332",

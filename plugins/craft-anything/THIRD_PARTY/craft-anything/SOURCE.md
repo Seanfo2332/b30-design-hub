@@ -3,7 +3,7 @@
 - Source: https://github.com/storytold/craft-anything
 - Author: ArtCraft Team and the Craft Anything contributors
 - Licence: MIT OR Apache-2.0
-- Pinned commit: 4a4b06d2813cd24821bd9bbdd670b75c21079804
+- Pinned commit: 3d5eb2577397ac632fb6dfffd94aa9787ad17acc
 - Copied into this plugin: `skills/craft-anything/SKILL.md`, `skills/craft-anything/references/recovery.md`
 - Notes: Only the skill text is included, renamed from the file names used inside the upstream setup crate. The ArtCraft name and logos are trademarks and are not included.
 
